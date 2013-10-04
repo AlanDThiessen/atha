@@ -1,0 +1,9 @@
+@media all and (max-width: 28em)
+{
+   .ui-grid-a .ui-block-a,
+   .ui-grid-a .ui-block-b
+   {
+      width: 100%;
+      clear: left;
+   }
+}
