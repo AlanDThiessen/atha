@@ -27,19 +27,52 @@ class GetLights(Resource):
         return self
     
     def render(self, uri, request, response):
-        lights = ( { 'id':          'A1',
-                     'name':        'Couch Lamp',
-                     'dimmable':    True
-                   },
-                  
-                   { 'id':          'A2',
-                     'name':        'Chair Lamp',
-                     'dimmable':    True
-                   }
-                 )
         roomsVar = ( { 'id':          'livingRoom',
                        'name':         'Living Room',
-                       'lights':       lights
+                       'lights':       ( { 'id':          'A1',
+                                           'name':        'Couch Lamp',
+                                           'dimmable':    True
+                                         },
+                  
+                                         { 'id':          'A2',
+                                           'name':        'Chair Lamp',
+                                           'dimmable':    True
+                                         }
+                                       )
+                     },
+                     { 'id':          'alansRoom',
+                       'name':         'Alan\'s Room',
+                       'lights':       ( { 'id':          'A3',
+                                           'name':        'Room Lamp',
+                                           'dimmable':    True
+                                         },
+                                       )
+                     },
+                     { 'id':          'basement',
+                       'name':         'Basement',
+                       'lights':       ( { 'id':          'B1',
+                                           'name':        'Front Light',
+                                           'dimmable':    True
+                                         },
+                  
+                                         { 'id':          'B2',
+                                           'name':        'Back Light',
+                                           'dimmable':    True
+                                         }
+                                       )
+                     },
+                     { 'id':          'outside',
+                       'name':         'Outside',
+                       'lights':       ( { 'id':          'B4',
+                                           'name':        'Front Light',
+                                           'dimmable':    True
+                                         },
+                  
+                                         { 'id':          'B5',
+                                           'name':        'Back Light',
+                                           'dimmable':    True
+                                         }
+                                       )
                      },
                    )
         

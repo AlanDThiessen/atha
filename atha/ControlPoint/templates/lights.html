@@ -2,24 +2,18 @@
 % for room in rooms:
       <div data-role="collapsible" data-theme="b" data-content-theme="d">
          <h4>${room['name']}</h4>
-         <div class="ui-grid-a">
    % for light in room['lights'] :
-         <form action="setLight" method="post">
-            <div class="ui-block-a">
-               <label for="${light['id']}">${light['name']}</label>
-               <select name="${light['name']}" id="${light['id']}" data-role="slider">
-                  <option value="off">Off</option>
-                  <option value="on">On</option>
-               </select>
-            </div>
-            <div class="ui-block-b">
-            % if light['dimmable'] == True:
-               <label for="slider-${light['id']}">Level:</label>
-               <input name="level-${light['name']}" id="slider-${light['id']}" data-highlight="true" value="100" min="0" max="100" step="4" type="range">
-            % endif
-            </div>
+         <form>
+            <label for="${light['id']}">${light['name']}</label>
+            <select name="${light['name']}" id="${light['id']}" data-role="slider" onChange="LightChange( '${light['id']}' );">
+               <option value="off">Off</option>
+               <option value="on">On</option>
+            </select>
+         % if light['dimmable'] == True:
+            <label for="slider-${light['id']}">Level:</label>
+            <input name="level-${light['name']}" id="slider-${light['id']}" data-highlight="true" value="100" min="0" max="100" step="4" type="range">
+         % endif
          </form>
    % endfor
-         </div>
       </div>
 % endfor

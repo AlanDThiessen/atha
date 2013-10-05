@@ -21,7 +21,7 @@ class AthaConfig(object):
         self.serverName     = 'Atha'
         self.webRoot        = '/'.join( ( self.controlPoint, 'html' ) )        
         self.templatePath   = '/'.join( ( self.controlPoint, 'templates' ) )
-        self.host           = 'localhost'
+        self.host           = '192.168.1.21'
         self.port           = 8080
         
         self.device         = '/dev/ttyUSB0'
