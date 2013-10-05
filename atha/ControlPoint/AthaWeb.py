@@ -5,11 +5,11 @@ Created on Oct 3, 2013
 '''
 
 import os
-#import cherrypy
 
 from core.AthaConfig import AthaConfig
 
 from brisa.core.webserver import WebServer, StaticFile, Resource
+from mako.template import Template
 
 
 JQUERY              = "jquery-1.10.2.min.js"
@@ -21,8 +21,7 @@ ATHA_JS             = "atha.js"
 
 
 
-
-class Greeter(Resource):
+class GetLights(Resource):
     def __init__(self, name):
         Resource.__init__(self, name )
         
@@ -72,7 +71,36 @@ class Greeter(Resource):
     def render(self, uri, request, response):
         return self.GetLights()
 
+class GetLights2(Resource):
+    def __init__(self, name, tempPath ):
+        Resource.__init__(self, name)
+        self.templatePath = tempPath
+        
+    def get_render(self, uri, params):
+        return self
+    
+    def render(self, uri, request, response):
+        return self.GetLights()
 
+    def GetLights(self):
+        lights = ( { 'id':          'A1',
+                     'name':        'Couch Lamp',
+                     'dimmable':    True
+                   },
+                  
+                   { 'id':          'A2',
+                     'name':        'Chair Lamp',
+                     'dimmable':    True
+                   }
+                 )
+        roomsVar = ( { 'id':          'livingRoom',
+                       'name':         'Living Room',
+                       'lights':       lights
+                     },
+                   )
+        template = '/'.join( ( self.templatePath, 'page.html' ) )
+        pageTemplate = Template( filename=template )
+        return pageTemplate.render( rooms=roomsVar, pageId='getLights' )
 
 class AthaWeb(object):
     '''
@@ -83,24 +111,20 @@ class AthaWeb(object):
         '''
         Constructor
         '''
-        if( config != None ):
-            currentDir = os.path.dirname( os.path.abspath(__file__) )
-            webRoot = '/'.join( ( currentDir, config.WEB_PATH ) )
-            
-            self.webserver = WebServer( 'atha', '192.168.1.21', 8080 )
+        if( isinstance( config, AthaConfig ) ):
+            self.webserver = WebServer( config.serverName, config.host, config.port )
     
-            print 'path: ', webRoot
-            self.webserver.add_static_file( StaticFile( JQUERY, '/'.join( ( webRoot, JQUERY ) ) ) )
-            self.webserver.add_static_file( StaticFile( JQUERY_MOBILE, '/'.join( ( webRoot, JQUERY_MOBILE ) ) ) )
-            self.webserver.add_static_file( StaticFile( JQUERY_MOBILE_CSS, '/'.join( ( webRoot, JQUERY_MOBILE_CSS ) ) ) )
-            self.webserver.add_static_file( StaticFile( 'index.html', '/'.join( ( webRoot, ATHA_INDEX ) ) ) )
-            self.webserver.add_static_file( StaticFile( '', '/'.join( ( webRoot, ATHA_INDEX ) ) ) )
-            self.webserver.add_static_file( StaticFile( ATHA_CSS, '/'.join( ( webRoot, ATHA_CSS ) ) ) )
-            self.webserver.add_static_file( StaticFile( ATHA_JS, '/'.join( ( webRoot, ATHA_JS ) ) ) )
+            self.webserver.add_static_file( StaticFile( JQUERY, '/'.join( ( config.webRoot, JQUERY ) ) ) )
+            self.webserver.add_static_file( StaticFile( JQUERY_MOBILE, '/'.join( ( config.webRoot, JQUERY_MOBILE ) ) ) )
+            self.webserver.add_static_file( StaticFile( JQUERY_MOBILE_CSS, '/'.join( ( config.webRoot, JQUERY_MOBILE_CSS ) ) ) )
+            self.webserver.add_static_file( StaticFile( 'index.html', '/'.join( ( config.webRoot, ATHA_INDEX ) ) ) )
+            self.webserver.add_static_file( StaticFile( '', '/'.join( ( config.webRoot, ATHA_INDEX ) ) ) )
+            self.webserver.add_static_file( StaticFile( ATHA_CSS, '/'.join( ( config.webRoot, ATHA_CSS ) ) ) )
+            self.webserver.add_static_file( StaticFile( ATHA_JS, '/'.join( ( config.webRoot, ATHA_JS ) ) ) )
             
-            greeter = Greeter( 'getLights' )
+            greeter = GetLights2( 'getLights', config.templatePath )
             self.webserver.add_resource( greeter )
-            
+
             print 'Webserver listening on', self.webserver.get_listen_url()
         else:
             print 'Please specify a configuration'

@@ -16,5 +16,10 @@ class AthaConfig(object):
         '''
         Constructor
         '''
-        self.WEB_PATH   = "html"
-        
+        self.athaRoot       = os.path.dirname( os.path.abspath(__file__ + "/../" ) )
+        self.controlPoint   = '/'.join( ( self.athaRoot, 'ControlPoint' ) )
+        self.serverName     = 'Atha'
+        self.webRoot        = '/'.join( ( self.controlPoint, 'html' ) )        
+        self.templatePath   = '/'.join( ( self.controlPoint, 'templates' ) )
+        self.host           = 'localhost'
+        self.port           = 8080
