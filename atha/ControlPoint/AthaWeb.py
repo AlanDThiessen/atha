@@ -98,6 +98,8 @@ class SetLights(Resource):
                 self.action.LightOn( params['id'] )
             elif( params['action'] == 'off' ):
                 self.action.LightOff( params['id'] )
+            elif( params['action'] == 'level' ):
+                self.action.SetLevel( params['id'], params['value'] )
         return ""
 
 class AthaWeb(object):

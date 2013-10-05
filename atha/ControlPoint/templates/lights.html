@@ -11,7 +11,7 @@
             </select>
          % if light['dimmable'] == True:
             <label for="slider-${light['id']}">Level:</label>
-            <input name="level-${light['name']}" id="slider-${light['id']}" data-highlight="true" value="100" min="0" max="100" step="4" type="range">
+            <input name="level-${light['name']}" id="level-${light['id']}" data-highlight="true" value="100" min="0" max="100" step="4" type="range" onChange="SetBrightness( 'level-${light['id']}', '${light['id']}' );">
          % endif
          </form>
    % endfor
