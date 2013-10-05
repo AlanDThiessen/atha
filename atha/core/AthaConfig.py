@@ -23,3 +23,5 @@ class AthaConfig(object):
         self.templatePath   = '/'.join( ( self.controlPoint, 'templates' ) )
         self.host           = 'localhost'
         self.port           = 8080
+        
+        self.device         = '/dev/ttyUSB0'

@@ -22,32 +22,9 @@
          <li><a href="settings">Settings</a></li>
       </ul>
    </div>
-   <div data-role="header"><a href="#navPanel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a><h1>Atha - Lights</h1></div>
+   <div data-role="header"><a href="#navPanel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a><h1>Atha - ${pageName}</h1></div>
    <div data-role="content">
-
-% for room in rooms:
-	   <div data-role="collapsible" data-theme="b" data-content-theme="d">
-	      <h4>${room['name']}</h4>
-	      <form>
-	      <div class="ui-grid-a">
-	% for light in room['lights'] :
-	         <div class="ui-block-a">
-	            <label for="${light['id']}">${light['name']}</label>
-	            <select name="${light['name']}" id="${light['id']}" data-role="slider">
-	               <option value="off">Off</option>
-	               <option value="on">On</option>
-	            </select>
-	         </div>
-	         <div class="ui-block-b">
-	            <label for="slider-${light['id']}">Level:</label>
-	            <input name="slider-${light['name']}" id="slider-${light['id']}" data-highlight="true" value="100" min="0" max="100" step="4" type="range">
-	         </div>
-	% endfor
-	      </div>
-	      </form>
-	   </div>
-% endfor
-
+   ${pageContent}
    </div>
 </div>
 
