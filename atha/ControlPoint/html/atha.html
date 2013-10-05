@@ -7,24 +7,30 @@
 	<link rel="stylesheet" href="atha.css" />
 	<script src="jquery-1.10.2.min.js"></script>
 	<script src="jquery.mobile-1.3.2.min.js"></script>
+   <script src="atha.js"></script>
 </head>
 
 <body>
 
-<!-- Page: Lights ------------------------------------------------ -->
-<div data-role="page" id="lights">
-   <div data-role="panel" id="navPanel" data-display="overlay" data-position="left">
+<!-- ***** Page: Main ***************************************************** -->
+<div data-role="page" id="home">
+   <div data-role="header"><h1>Atha</h1></div>
+   <div data-role="content">
       <ul data-role="listview" data-ajax="false" data-inset="true">
           <li><a href="#scenes">Scenes</a></li>
-          <li><a href="#lights">Lights</a></li>
+          <li><a href="getLights">Lights</a></li>
           <li><a href="#media">Media</a></li>
           <li><a href="#devices">Devices</a></li>
           <li><a href="#settings">Settings</a></li>
       </ul>
    </div>
+</div>
 
-   <div data-role="header"><a href="#navPanel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a><h1>Lights</h1></div>
-   <div data-role="content">
+</body>
+</html>
+
+
+<!--
       <div data-role="collapsible" data-theme="b" data-content-theme="d">
          <h4>Living Room</h4>
          <form>
@@ -88,71 +94,4 @@
       </div>
 
    </div>
-</div>
-
-<div data-role="page" id="media">
-   <div data-role="panel" id="navPanel" data-display="overlay" data-position="left">
-      <ul data-role="listview" data-ajax="false" data-inset="true">
-          <li><a href="#scenes">Scenes</a></li>
-          <li><a href="#lights">Lights</a></li>
-          <li><a href="#media">Media</a></li>
-          <li><a href="#devices">Devices</a></li>
-          <li><a href="#settings">Settings</a></li>
-      </ul>
-   </div>
-
-   <div data-role="header"><a href="#navPanel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a><h1>Media</h1></div>
-   <div data-role="content">The media goes here
-   </div>
-</div>
-
-<div data-role="page" id="devices">
-   <div data-role="panel" id="navPanel" data-display="overlay" data-position="left">
-      <ul data-role="listview" data-ajax="false" data-inset="true">
-          <li><a href="#scenes">Scenes</a></li>
-          <li><a href="#lights">Lights</a></li>
-          <li><a href="#media">Media</a></li>
-          <li><a href="#devices">Devices</a></li>
-          <li><a href="#settings">Settings</a></li>
-      </ul>
-   </div>
-
-   <div data-role="header"><a href="#navPanel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a><h1>Devices</h1></div>
-   <div data-role="content">The devices go here
-   </div>
-</div>
-
-<div data-role="page" id="scenes">
-   <div data-role="panel" id="navPanel" data-display="overlay" data-position="left">
-      <ul data-role="listview" data-ajax="false" data-inset="true">
-          <li><a href="#scenes">Scenes</a></li>
-          <li><a href="#lights">Lights</a></li>
-          <li><a href="#media">Media</a></li>
-          <li><a href="#devices">Devices</a></li>
-          <li><a href="#settings">Settings</a></li>
-      </ul>
-   </div>
-
-   <div data-role="header"><a href="#navPanel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a><h1>Scenes</h1></div>
-   <div data-role="content">The scenes go here
-   </div>
-</div>
-
-<div data-role="page" id="settings">
-   <div data-role="panel" id="navPanel" data-display="overlay" data-position="left">
-      <ul data-role="listview" data-ajax="false" data-inset="true">
-          <li><a href="#scenes">Scenes</a></li>
-          <li><a href="#lights">Lights</a></li>
-          <li><a href="#media">Media</a></li>
-          <li><a href="#devices">Devices</a></li>
-          <li><a href="#settings">Settings</a></li>
-      </ul>
-   </div>
-
-   <div data-role="header"><a href="#navPanel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a><h1>Settings</h1></div>
-   <div data-role="content">The settings go here
-   </div>
-</div>
-
-</body>
-</html>
+-->
