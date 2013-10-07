@@ -65,12 +65,12 @@ class GetLights(Resource):
                        'name':         'Outside',
                        'lights':       ( { 'id':          'B4',
                                            'name':        'Front Light',
-                                           'dimmable':    True
+                                           'dimmable':    False
                                          },
                   
                                          { 'id':          'B5',
                                            'name':        'Back Light',
-                                           'dimmable':    True
+                                           'dimmable':    False
                                          }
                                        )
                      },
