@@ -39,7 +39,7 @@ class LightController(object):
         module.off()
 
     def SetLevel( self, light, level ):
-        newlevel = int( level ) * 22 / 100
+        newlevel = ( int( level ) * 20 / 100 ) + 2
         module = self.device.actuator( light )
         module.bright(22)
         module.dim( 22 - newlevel )
