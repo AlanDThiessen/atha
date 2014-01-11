@@ -6,7 +6,7 @@ Created on Oct 5, 2013
 import sys
 import os
 
-sys.path.append(os.path.expanduser('~/git/python-x10'))
+#sys.path.append(os.path.expanduser('~/git/python-x10'))
 from x10.controllers.cm11 import CM11
 
 

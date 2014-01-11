@@ -2,10 +2,36 @@
 // Use Jquery to start the app when the DOM is ready
 //$(document).ready( main );
 
+$(function()
+{
+   $('body').append( "<div class='ui-loader-background'> </div>" );
+} );
+
+
+function ModalPleaseWait()
+{
+   $.mobile.loading( 'show',
+   {
+      text:  'Please wait...',
+      textVisible: true,
+      theme: 'a',
+      textonly: false,
+    } );
+}
+
+
+function HidePleaseWait()
+{
+   $.mobile.loading( 'hide' );
+}
+
+
 function LightChange( lightId )
 {
    var lightSwitch = $('#'+lightId);
    var status = lightSwitch.val();
+
+   ModalPleaseWait();
    
    $.ajax(
    {
@@ -17,7 +43,7 @@ function LightChange( lightId )
       //error : function () { document.title='error'; }, 
       success: function (data)
       {
-         // do nothing
+         HidePleaseWait();
       }
    } );
 
@@ -32,7 +58,9 @@ function SetBrightness( sliderId, lightId )
    var status = slider.val();
    var oldValue = slider.before();
    
-  
+   
+   ModalPleaseWait();
+   
    $.ajax(
    {
       url: 'setLights',
@@ -44,7 +72,7 @@ function SetBrightness( sliderId, lightId )
       //error : function () { document.title='error'; }, 
       success: function (data)
       {
-         // do nothing
+         HidePleaseWait();
       }
    } );
 
