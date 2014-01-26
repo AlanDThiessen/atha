@@ -18,22 +18,19 @@ logging.basicConfig( level=logging.DEBUG,
                      datefmt='%Y-%m-%d %H:%M:%S' )
 
 class SwitchPower(Service, Notifier):
-    def __init__(self, controller, x10Device ):
+    def __init__(self, controller, actuator, x10Device ):
         Service.__init__( self,
                           'SwitchPower',
                           'urn:schemas-upnp-org:service:SwitchPower:1',
                           '',
                           os.getcwd() + '/SwitchPower-scpd.xml' )
-        self.actuator   = controller.actuator( x10Device )
+        self.actuator   = actuator
         self.x10Address = x10Device
         self.target     = False
         self.status     = False
         controller.AddNotifier( self )
 
     def soap_SetTarget(self, *args, **kwargs):
-        #self.target = kwargs['NewTargetValue']
-        #self.status = self.target
-
         newTarget = kwargs['NewTargetValue']
         
         if( newTarget == '1' ):
@@ -59,7 +56,61 @@ class SwitchPower(Service, Notifier):
                 self.target = '0'
                 
             self.status = self.target
+
+
+class Dimming(Service, Notifier):
+    MAX_BRIGHT = 22     # Maximum brightness for X10 lamp
+    MIN_BRIGHT = 2      # Minimum brightness for X10 lamp (it's really 0; but hey, this makes math easier)
+
+    def __init__(self, controller, actuator, x10Device ):
+        Service.__init__( self,
+                          'Dimming',
+                          'urn:schemas-upnp-org:service:Dimming:1',
+                          '',
+                          os.getcwd() + '/Dimming-scpd.xml' )
+        self.actuator   = actuator
+        self.x10Address = x10Device
+        self.loadLevelTarget = self.MAX_BRIGHT
+        self.loadLevelStatus = self.MAX_BRIGHT
+        controller.AddNotifier( self )
+
+    def soap_SetLoadLevelTarget(self, *args, **kwargs):
+        percentage = kwargs['newLoadlevelTarget']
+
+        newlevel = ( int( percentage ) * ( self.MAX_BRIGHT - self.MIN_BRIGHT ) / 100 ) + self.MIN_BRIGHT
+
+        if( newlevel > self.loadLevelStatus ):
+            self.actuator.bright( newlevel - self.loadLevelStatus )
+        elif( newlevel < self.loadLevelStatus ):
+            self.actuator.dim( self.loadLevelStatus - newlevel )
+
+        return {}
+
+    def soap_GetLoadLevelTarget(self, *args, **kwargs):
+        return {'GetLoadlevelTarget': str( self.loadLevelTarget * 100 / self.MAX_BRIGHT ) }
     
+    def soap_GetLoadLevelStatus(self, *args, **kwargs):
+        return {'retLoadlevelStatus': str( self.loadLevelStatus * 100 / self.MAX_BRIGHT )}
+
+    def Notify(self, houseCode, functionCode, functionName, amount, units ):
+        if self.x10Address in units:
+            if( functionName == 'Bright' ):
+                logger.debug( 'X10 Light Device: %s Brighter by %d', self.x10Address, amount )
+                self.loadLevelTarget += amount
+                
+                if( self.loadLevelTarget > self.MAX_BRIGHT ):
+                    self.loadLevelTarget = self.MAX_BRIGHT
+                    
+            elif( functionName == 'Dim' ):
+                logger.debug( 'X10 Light Device: %s Dimmer by %d', self.x10Address, amount )
+                self.loadLevelTarget -= amount
+                
+                if( self.loadLevelTarget < self.MIN_BRIGHT ):
+                    self.loadLevelTarget = self.MIN_BRIGHT
+                
+            self.loadLevelStatus = self.loadLevelTarget
+
+
 class X10Light(object):
     def __init__(self, name, x10Device, dimmable, room ):
         self.name       = name
@@ -80,12 +131,18 @@ class X10Light(object):
                               model_description='A UPnP Light Device Representing an X10 Light',
                               model_number='1.0',
                               model_url=projectPage )
+        
     def AddServices(self, controller):
-        switch = SwitchPower( controller, self.x10Device )
+        switch = SwitchPower( controller, self.actuator, self.x10Device )
         self.device.add_service(switch)
+        
+        if( self.dimmable ):
+            dimmer = Dimming( controller, self.actuator, self.x10Device )
+            self.device.add_service( dimmer )
         
     def start(self, controller):
         logger.debug( 'Starting Light: %s', self.name )
+        self.actuator = controller.actuator( self.x10Device )
         self.CreateDevice()
         self.AddServices( controller )
         self.device.start()
