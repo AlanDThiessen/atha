@@ -8,6 +8,7 @@ from core.AthaConfig import AthaConfig
 from LightController.LightController import LightController
 from ControlPoint.AthaWeb import AthaWeb
 
+# Start up the reactor
 from brisa.core.reactors import install_default_reactor
 
 lightController = None

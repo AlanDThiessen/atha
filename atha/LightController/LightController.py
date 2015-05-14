@@ -8,9 +8,8 @@ import logging
 
 from x10.controllers.cm11 import CM11
 from x10.devices.notifier import Notifier
-from brisa.core.reactors import install_default_reactor
-reactor = install_default_reactor()
 from brisa.upnp.device import Device, Service
+from brisa.core import reactor
 
 logger = logging.getLogger(__name__)
 logging.basicConfig( level=logging.DEBUG,
